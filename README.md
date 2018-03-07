@@ -1,3 +1,3 @@
-# hello world
+# Hello World!
 - I am an android developer.
-- Hello.
+- It is 2018-03-07 today.
