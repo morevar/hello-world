@@ -30,12 +30,34 @@ Q002. 四大组件相关问题
 
 
 
-Q003. 五大存储方式相关问题
+Q003. 数据与存储
+1. 存储方式
 (1)SharedPreferences：适合保存少量数据(数据格式简单，如App的各种配置信息)，基于XML键值对。
 (2)文件
 (3)SQLite数据库
 (4)ContentProvider：一个ContentProvider类实现了一组标准的方法接口，从而能够让其他的应用保存或读取此ContentProvider的各种数据类型。
 (5)网络
+
+2. XML和JSON
+(1.1)XML：指可扩展标记语言，用于传输和存储数据。特点：树形结构/必须有根元素/标签必须关闭/标签对大小写敏感/元素嵌套必须正确/属性值必须加引号。解析方式：DOM。
+(1.2)JSON：JavaScriptObjectNotation(JavaScript对象表示法)，是存储和交换文本信息的语法(是轻量级的文本数据交换格式)。特点：名称/值对，数据由逗号分隔，大括号保存对象，中括号保存数组。
+(1.3)相同点：纯文本/自我描述性/层级结构。
+(1.4)不同点：JSON没有结束标签，JSON比XML更小、读写速度更快，JSON更易解析，JSON使用数组、不使用保留字。
+-
+(2)Android中的XML解析：
+(2.1)DOM：即对象文档模型，它是将整个XML文档一次性载入内存(效率较低，不推荐使用)，每一个节点当做一个对象。
+(2.2)SAX：边读边解析，基于事件（方法）驱动方式。
+(2.3)PULL：类似SAX，Android推荐。
+(2.4)DOM方式最直观和容易理解，但是只适合XML文档较小的时候使用；而SAX方式更适合在移动终端系统中使用，因为相比DOM占用内存少，适合处理比较大的XML文档；最后的Pull方式使用场合和SAX类似，但是更适合需要提前结束XML文档解析的场合。
+-
+(3)Android中的JSON解析：
+(3.1)Android原生技术(JSONArray/JSONObject)
+(3.2)Gson(Android推荐)
+(3.3)FastJson(阿里巴巴开源方案)
+- 参考
+[JSON官网]http://www.json.org/json-zh.html
+[20160515]Android中XML的三种解析方式 https://blog.csdn.net/WILLMAX_007/article/details/51416963
+[20161126]Android项目之JSON解析 https://blog.csdn.net/qq_29269233/article/details/53352668
 
 
 
@@ -156,6 +178,32 @@ Q005. 设计模式
 缺点：多层装饰比较复杂。
 应用举例：ContextWrapper。
 
+0x1. 常见的Android开发模式(MVC/MVP/MVVM)
+- 不推荐使用MVC
+(1)MVC：Model-View-Controller
+(1.1)用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。
+(1.2)M层负责生成要展示的内容(业务逻辑)，V层只负责渲染内容(布局)，C层负责处理用户输入以及其他事件(Activity)。
+-
+(2)MVP：Model-View-Presenter
+(2.1)目的：实现解耦。
+(2.2)M只处理数据操作，P只协助处理V和M的相关操作。
+-
+(3)MVVM：Model-View-ViewModel
+(3.1)目的：将UI逻辑和业务逻辑分离。
+(3.2)ViewModel层的主要责任是表现逻辑和状态，即ViewModel层是连接View层和Model层的。Model层的一些业务逻辑的状态是需要通过ViewModel层暴露给View层来反映给软件使用者的。 
+-
+(4)MVC和MVP的区别是：MVC中Model的状态改变时会更新View。
+(4.1)V层和M层的功能基本是同样的：V负责UI逻辑，M负责业务逻辑。
+(4.2)Controller(MVC)接受用户的输入，并调用m和v来完成用户的请求。
+(4.3)Presenter(MVP)负责逻辑处理，是V和M的通讯，封装了V的所有操作，响应用户的输入输出、事件等。
+(4.4)ViewModel(MVVM)封装了表现逻辑和业务逻辑的运行状态。
+- 参考
+[20150712]MVP and MVC Architectures in Android – part 1 https://www.techyourchance.com/mvp-mvc-android-1/
+[20160102]MVP and MVC Architectures in Android – part 2 https://www.techyourchance.com/mvp-mvc-android-2/
+[20170126]The MVC, MVP, and MVVM Smackdown https://academy.realm.io/posts/eric-maxwell-mvc-mvp-and-mvvm-on-android/
+[20160926]Android开发模式之MVC，MVP和MVVM的简单介绍与区别 https://blog.csdn.net/xiangzhihong8/article/details/52671151
+[20121128]说一下我对Mvvm模式的理解 http://www.cnblogs.com/sirkevin/archive/2012/11/28/2793471.html
+
 
 
 Q006. 开源库
@@ -230,6 +278,69 @@ Q007. 设计
 [官网]https://material.io/
 [中文翻译]http://wiki.jikexueyuan.com/project/material-design/
 
+2. Android各个版本特性
+(2.1)Android 4.4 K 特性(全屏沉浸模式、屏幕录制、步测器和计步器) - https://developer.android.google.cn/about/versions/kitkat.html
+(2.2)Android 5.0 L 特性(MaterialDesign、ART运行时) - https://developer.android.google.cn/about/versions/lollipop.html
+(2.3)Android 6.0 M 特性(运行时权限、低电耗模式和应用待机模式、文本选择) - https://developer.android.google.cn/about/versions/marshmallow/android-6.0-changes.html
+(2.4)Android 7.0 N 功能(多窗口支持、通知增强、JIT编译器、加强的低电耗模式、后台优化、流量节省程序、多语言区域支持) - https://developer.android.google.cn/about/versions/nougat/android-7.0.html
+(2.5)Android 8.0 O 功能(通知渠道、用于TV的画中画、自动填充、自适应图标、可下载字体、多窗口、多显示器支持、JobScheduler改进、媒体增强功能、企业版) - https://developer.android.google.cn/about/versions/oreo/android-8.0.html
+(2.6)Android P 功能(室内定位、刘海屏支持、通知增强功能、多摄像头支持、手动旋转) - https://developer.android.google.cn/preview/features.html
+
+3. Android支持库(Support Library) 
+>> https://developer.android.google.cn/topic/libraries/support-library/features.html
+>> 用来保证高版本SDK开发的向下兼容性，一般使用的主要是v4、v7。
+-
+(1)v4 支持库：适用Android 2.3(API 9+)，包名为android.support.v4。
+(1.1)v4 compat 库：为众多框架 API 提供兼容性包装器。
+(1.2)v4 core-utils 库：提供大量实用程序类，如 AsyncTaskLoader 和 PermissionChecker。
+(1.3)v4 core-ui 库：实现各种 UI 相关组件，如 ViewPager、NestedScrollView 和 ExploreByTouchHelper。
+(1.4)v4 media-compat 库：向后移植部分媒体框架，包括 MediaBrowser 和 MediaSession。
+(1.5)v4 fragment 库：添加对使用片段封装用户界面和功能的支持(依赖于前4个库)。
+>> 使用的主要是Fragment/ViewPager。
+-
+(2)v7 支持库：适用Android 2.3(API 9+)。
+(2.1)v7 appcompat 库：添加了对操作栏用户界面设计模式的支持(此库依赖于 v4 支持库)(包含对 Material Design 用户界面实现的支持，如ActionBar/AppCompatActivity/AppCompatDialog/ShareActionProvider)。
+(2.2)v7 cardview 库：添加了对 CardView 小部件的支持(对 Material Design 实现非常有用)。
+(2.3)v7 gridlayout 库：可以添加对 GridLayout 类的支持。
+(2.4)v7 mediarouter 库：可以提供 MediaRouter、MediaRouteProvider 和支持 Google Cast 的相关媒体类。
+(2.5)v7 palette 库：包含 Palette 类，此类让您可以从图像中抽取突出颜色。
+(2.6)v7 recyclerview 库：添加了 RecyclerView 类。
+(2.7)v7 Preference 支持库：支持添加 preference 对象（例如 CheckBoxPreference 和 ListPreference）。
+>> 使用的主要是ActionBar/AppCompatActivity/RecyclerView/CardView。
+-
+(3)设计支持库：支持向应用中添加 Material Design 组件和模式，如抽屉式导航栏、浮动操作按钮 (FAB)、快捷信息栏和标签页。
+-
+(4)v8 支持库：适用Android 2.3(API 9+)。
+(5)v13 支持库：适用Android 3.2(API 13+)。
+(6)v14 Preference 支持库
+(7)适用于电视的 v17 Preference 支持库
+(8)v17 Leanback 库
+(9)注解支持库
+(10)自定义标签页支持库
+(11)百分比支持库
+(12)适用于电视的应用建议支持库
+(13)Dalvik 可执行文件分包支持库
+>> v13在平板开发中会用到，v14在可穿戴设备开发中会用到，v17在电视开发中会用到。
+
+4. 常见的Material Design组件
+- Color Palette
+- Toolbar
+- AppBarLayout
+- CollapsingToolbarLayout
+- CoordinatorLayout
+- DrawerLayout、NavigationView
+- Floating Action Button (FAB)
+- Snackbar
+- TabLayout
+- TextInputLayout
+- 
+- v7: RecyclerView / CardView / Toolbar
+- v4: DrawerLayout / SwipeRefreshLayout
+- 参考
+- [20150725] https://blog.csdn.net/tiankong1206/article/details/47057719
+- [20160625] https://blog.csdn.net/zhangke3016/article/details/51752635
+- [20160725] https://blog.csdn.net/huachao1001/article/details/51853662
+
 
 
 Q008. Java基础
@@ -255,8 +366,8 @@ Q008. Java基础
 
 2. Java中的基本概念
 (0)栈和堆
-(0.1)栈：
-(0.1)堆：
+(0.1)栈：位于RAM，只存放基本数据类型和对象的引用。
+(0.2)堆：位于RAM，存放由new创建的对象和数组(有JVM进行管理)。
 (0.1)区别：
 (1)内部类
 (1.1)普通内部类
@@ -333,10 +444,14 @@ Q008. Java基础
 
 
 Q009. 性能优化
-内存泄漏
-()常见情况：1-Activity对象未被回收(静态变量引用/静态View/内部类/匿名类/Handler/Thread/监听器)；2-集合对象；3-资源对象没有关闭；4-使用对象池频繁创建对象。
+1. 内存泄漏
+()是什么：程序在向系统申请内存分配空间后，使用完毕未释放。
+()常见情况：1-全局进程的static变量(持有Activity的强引用)；2-Activity生命周期之外的线程(没有清空对Activity的强引用)。
+()常见情况说明：1-Activity对象未被回收(静态变量引用/静态View/内部类/匿名类/Handler/Thread/监听器)；2-集合对象；3-资源对象没有关闭；4-使用对象池频繁创建对象。
+- 参考
 [20160813]Android中常见的内存泄漏 - https://blog.csdn.net/huachao1001/article/details/52197729
-
+[20160703]Android内存泄漏的八种可能 - https://www.jianshu.com/p/ac00e370f83d
+[20160924]Android防止内存泄漏的八种方法 - https://www.jianshu.com/p/c5ac51d804fa
 
 
 安卓项目打包生成apk安装的文件的过程：最重要的一步是将java代码编译成.class字节文件，再打包转化为一个或多个.dex格式的代码压缩文件。这种dex文件便是Android虚拟机所能识别、解析并运行的程序。
